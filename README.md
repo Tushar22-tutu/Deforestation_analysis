@@ -1,86 +1,88 @@
-# 🚚 Food Delivery Time Prediction
+# 🌳 Deforestation Issue Analysis Using Support Vector Machine (SVM)
 
 ## 🎯 Objective
-The goal is to predict food delivery time using regression and classify delivery speed (Fast/Delayed) using logistic regression. The model uses features like:
-- Customer and restaurant location
-- Weather and traffic conditions
-- Vehicle type
-- Distance and order-related details
+Analyze deforestation across countries using SVM. Predict forest loss based on features like:
+- CO₂ emissions
+- Rainfall
+- Population
+- GDP
+- Policy factors
 
 ---
 
-## 📊 Phase 1: Data Collection and Exploratory Data Analysis (EDA)
+## 📊 Phase 1: Data Preprocessing
 
-### 🔹 Step 1 - Data Import and Preprocessing
-- **Load dataset**: `Food_Delivery_Time_Prediction.csv`
+### 🔹 Loading the Data
+- Load dataset: `deforestation_dataset.csv`
+- Inspect for missing values, anomalies, and data inconsistencies
 
-#### Handle Missing Values
-- Inspect missing values in key columns like `Distance`, `Delivery_Time`
-- Use **imputation** (mean/median) or **drop rows/columns** if needed
+### 🔹 Data Cleaning
+- **Missing Values**: Impute or drop missing entries
+- **Encoding**:
+  - Label encode or one-hot encode categorical features such as:
+    - `Deforestation_Policy_Strictness`
+    - `Corruption_Index`
 
-#### Data Transformation
-- **Encode categorical variables**:
-  - Label Encoding or One-Hot Encoding for:
-    - `Weather_Conditions`
-    - `Traffic_Conditions`
-    - `Vehicle_Type`
-- **Normalize numerical columns**:
-  - Use `StandardScaler` or `MinMaxScaler` on:
-    - `Distance`, `Delivery_Time`, `Order_Cost`
+### 🔹 Feature Scaling
+- Apply normalization/standardization to numerical features:
+  - `CO2_Emission_mt`, `Population`, `GDP_Billion_USD`, etc.
+- Optionally perform **feature selection** to improve model performance
 
-### 🔹 Step 2 - Exploratory Data Analysis (EDA)
-- **Descriptive Statistics**:
-  - Mean, median, variance for numerical columns
-- **Correlation Analysis**:
-  - Use heatmaps to find correlation with `Delivery_Time`
-- **Outlier Detection**:
-  - Use boxplots and IQR method to detect and treat outliers
-
-### 🔹 Step 3 - Feature Engineering
-- **Distance Calculation**:
-  - Compute geodesic distance using Haversine formula if not available
-- **Time-Based Features**:
-  - Extract `hour`, `is_rush_hour`, `day_of_week` to capture delivery patterns
+### 🔹 Train-Test Split
+- Split dataset: 80% training / 20% testing using `train_test_split`
+- Ensure shuffle for unbiased training
 
 ---
 
-## 🔧 Phase 2: Predictive Modeling
+## 🧠 Phase 2: Model Building and Evaluation
 
-### ✅ Step 4 - Linear Regression Model
-- **Train-Test Split**:
-  - Use `train_test_split` (80/20)
+### ✅ Support Vector Machine (SVM) Model
+- **Model Goal**:
+  - Predict either `Forest_Loss_Area_km2` or `Tree_Cover_Loss_percent`
 
-#### Model Building
-- Use **Linear Regression** with features:
-  - `Distance`, `Traffic_Conditions`, `Order_Priority`
+### 🔹 Implementation
+- Train initial SVM model with **linear kernel**
 
-#### Evaluation Metrics
-- **Mean Squared Error (MSE)**
+### 🔹 Evaluation Metrics
+- **MAE** (Mean Absolute Error)
+- **MSE** (Mean Squared Error)
+- **RMSE** (Root Mean Squared Error)
 - **R-squared (R²)**
-- **Mean Absolute Error (MAE)**
 
-### ✅ Step 5 - Logistic Regression Model (Binary Classification)
+### 🔹 Visualization and Tuning
+- Visualize results using scatter plots or regression lines
+- If applicable, plot decision boundaries (for classification)
 
-#### Objective
-- Classify delivery status as:
-  - **0 = Fast**, **1 = Delayed**
+### 🔹 Hyperparameter Tuning
+- Try other kernels: `rbf`, `poly`
+- Tune hyperparameters:
+  - `C`, `gamma`, `kernel`
+- Use **GridSearchCV** or **RandomizedSearchCV**
+- Apply **cross-validation** to validate performance
 
-#### Features
-- `Traffic_Conditions`, `Weather_Conditions`, `Delivery_Person_Experience`, etc.
+---
 
-#### Evaluation Metrics
-- **Accuracy**
-- **Precision**
-- **Recall**
-- **F1-score**
-- **Confusion Matrix**
+## 🔬 Phase 3: Feature Analysis and Interpretation
+
+### 🔹 Feature Importance
+- Analyze which features influence forest loss most
+- Example insights:
+  - High CO2 = greater forest loss
+  - Poor policy strictness = higher deforestation
+
+### 🔹 Results Interpretation
+- Interpret coefficients (for linear kernel)
+- Discuss:
+  - Impact of GDP
+  - Effect of corruption & illegal logging
+  - Influence of rainfall and other natural factors
 
 ---
 
 ## 📌 Summary
-This project demonstrates how to use regression and classification for food delivery time prediction. It builds a robust preprocessing pipeline and evaluates model accuracy using standard metrics.
+This project applies Support Vector Machines to analyze global deforestation trends. Through data preprocessing, model evaluation, and feature interpretation, we extract key insights about deforestation drivers.
 
-📦 **Next Steps**:
-- Hyperparameter tuning (GridSearch)
-- Model comparison with Random Forest, SVM
-- Deploy with Flask or Streamlit
+📦 **Future Steps**:
+- Test on updated datasets
+- Compare SVM with Random Forest or Gradient Boosting
+- Integrate into dashboard for real-time deforestation monitoring
